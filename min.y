@@ -23,8 +23,7 @@ typedef struct nodeType {
 	
 int tsymbolcnt=0;
 int errorcnt=0;
-int counter=0;
-
+int counter=0; // 반복문용
 
 FILE *yyin;
 FILE *fp;
@@ -51,7 +50,7 @@ void	substmt(int, int, int);
 int		insertsym(char *);
 %}
 
-%token	ADD SUB MUL DIV LT GT LE GE EQ NE LP RP LBRACE RBRACE IF ELSE IF_ELSE  ELSEIF LOOP LOOP2 ASSGN ID NUM STMTEND START END ID2 
+%token	ADD SUB MUL DIV LT GT LE GE EQ NE LP RP LBRACE RBRACE IF ELSE IF_ELSE  ELSEIF LOOP ASSGN ID NUM STMTEND START END ID2 
 
 
 
@@ -74,13 +73,11 @@ com 	:	expr LT expr		{$$=MakeOPTree(LT, $1, $3); }
 		|	expr NE expr 	{$$=MakeOPTree(NE, $1, $3); }
 		;
 
-count    :   NUM  { counter = $1->tokenval; $$ = MakeOPTree(LOOP2, $1, NULL); };
-
 stmt	: 	ID ASSGN expr STMTEND	{ $1->token = ID2; $$=MakeOPTree(ASSGN, $1, $3);}
 		| IF LP com RP LBRACE stmt_list RBRACE  {$$=MakeOPTree(IF, $3, $6); }
-		| count {$$=$1;}
 		| IF LP com RP LBRACE stmt_list RBRACE ELSE LBRACE stmt_list RBRACE { $$=MakeIFELSETree( IF_ELSE, $3, $6, $10); }
 		| ELSEIF LP com RP LBRACE stmt_list RBRACE { $$=MakeELSEIFTree( ELSEIF, $3, $6 ); }
+		| LOOP LP com RP LBRACE stmt_list RBRACE   {$$=MakeOPTree(LOOP, $3, $6);}
 		;
 
 
@@ -115,7 +112,7 @@ int main(int argc, char *argv[])
 		return(0);
 		}
 		
-	fp=fopen("a.asm", "w");
+	fp=fopen("a.s", "w");
 	
 	yyparse();
 	
@@ -123,7 +120,7 @@ int main(int argc, char *argv[])
 	fclose(fp);
 
 	if (errorcnt==0) 
-		{ printf("Successfully compiled. Assembly code is in 'a.asm'.\n"); }
+		{ printf("Successfully compiled. Assembly code is in 'a.s'.\n"); }
 }
 
 yyerror(s)
@@ -141,7 +138,7 @@ Node * loopnode;
 newnode = (Node *)malloc(sizeof (Node));
 loopnode = (Node *)malloc(sizeof (Node));
 
-	if(op == IF){
+	if(op == IF || op == LOOPs){
 
 	newnode->token = op;
 	newnode->tokenval = op;
@@ -307,7 +304,7 @@ void prtcode(int token, int val)
 	case LOOP:
 		fprintf(fp, "LABEL LOOP\n");
 		break;
-	
+	/*
 	case LOOP2:
 		
 		fprintf(fp, "LVALUE NUM\n");
@@ -319,7 +316,7 @@ void prtcode(int token, int val)
         	fprintf(fp, "-\n");
 		fprintf(fp, "GOPLUS FOREND\n");
 		break;
-
+	*/
 
 	case LT:
 		fprintf(fp, "-\n");

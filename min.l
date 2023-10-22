@@ -45,6 +45,7 @@ number 	[0-9]+\.[0-9]+
 아니면|ELSE 		{return(ELSE);}
 아니면만약|ELSEIF	{return(ELSEIF);}
 
+조건동안반복|LOOP		{return(LOOP);}
 
 "{"|LBRACE		{return(LBRACE);}
 "}"|RBRACE		{return(RBRACE);}
@@ -59,8 +60,8 @@ number 	[0-9]+\.[0-9]+
 다르다|"!="|NE		{return(NE); }
 
 
-할당|:=|ASSGN		{return(ASSGN); }
-상태끝|;|STMTEND	{return(STMTEND); }
+은|는|:=|ASSGN		{return(ASSGN); }
+이다|;|STMTEND	{return(STMTEND); }
 시작|START		{return(START); }
 끝|END			{return(END); }
 {id}			{strcpy(s, yytext); temp=insertsym(s); yylval=MakeNode(ID, temp); return(ID);}
