@@ -34,6 +34,7 @@ extern int lineno;
 
 void DFSTree(Node*);
 Node * MakeOPTree(int, Node*, Node*);
+Node * MakeLOOPTree(int, Node*, Node*);
 Node * MakeNode(int, int);
 Node * MakeListTree(Node*, Node*);
 Node * MakeIFELSETree(int, Node*, Node*, Node*);
@@ -50,7 +51,7 @@ void	substmt(int, int, int);
 int		insertsym(char *);
 %}
 
-%token	ADD SUB MUL DIV LT GT LE GE EQ NE LP RP LBRACE RBRACE IF ELSE IF_ELSE  ELSEIF LOOP ASSGN ID NUM STMTEND START END ID2 
+%token	ADD SUB MUL DIV LT GT LE GE EQ NE LP RP LBRACE RBRACE IF ELSE IF_ELSE  ELSEIF LOOP WHILE ASSGN ID NUM STMTEND START END ID2 
 
 
 
@@ -77,7 +78,7 @@ stmt	: 	ID ASSGN expr STMTEND	{ $1->token = ID2; $$=MakeOPTree(ASSGN, $1, $3);}
 		| IF LP com RP LBRACE stmt_list RBRACE  {$$=MakeOPTree(IF, $3, $6); }
 		| IF LP com RP LBRACE stmt_list RBRACE ELSE LBRACE stmt_list RBRACE { $$=MakeIFELSETree( IF_ELSE, $3, $6, $10); }
 		| ELSEIF LP com RP LBRACE stmt_list RBRACE { $$=MakeELSEIFTree( ELSEIF, $3, $6 ); }
-		| LOOP LP com RP LBRACE stmt_list RBRACE   {$$=MakeOPTree(LOOP, $3, $6);}
+		| WHILE LP com RP LBRACE stmt_list RBRACE   {$$=MakeLOOPTree(WHILE, $3, $6);}
 		;
 
 
@@ -134,11 +135,9 @@ Node * MakeOPTree(int op, Node* operand1, Node* operand2)
 {
 
 Node * newnode;
-Node * loopnode;
 newnode = (Node *)malloc(sizeof (Node));
-loopnode = (Node *)malloc(sizeof (Node));
 
-	if(op == IF || op == LOOPs){
+	if(op == IF){
 
 	newnode->token = op;
 	newnode->tokenval = op;
@@ -159,7 +158,33 @@ loopnode = (Node *)malloc(sizeof (Node));
 	return newnode;
 }
 
+Node * MakeLOOPTree(int op, Node* operand1, Node* operand2)
+{
 
+Node * newnode;
+Node * loopnode;
+newnode = (Node *)malloc(sizeof (Node));
+loopnode = (Node *)malloc(sizeof (Node));
+
+   if(op == WHILE){
+
+   newnode->token = op;
+   newnode->tokenval = op;
+   newnode->son = loopnode;
+   newnode->brother = NULL;
+
+   loopnode->token=LOOP;
+   loopnode->tokenval=LOOP;
+   loopnode->son=NULL;
+   loopnode->brother = operand1;
+   operand1->brother = operand2;
+   operand2->brother=NULL;
+
+   }
+
+   
+   return newnode;
+}
 
 
 Node * MakeIFELSETree(int op, Node* operand1, Node* operand2, Node* operand3)
@@ -188,9 +213,7 @@ Node * MakeIFELSETree(int op, Node* operand1, Node* operand2, Node* operand3)
 Node * MakeELSEIFTree(int op, Node* operand1, Node* operand2)
 {
 	Node * newnode;
-	Node * loopnode;
 	newnode = (Node *)malloc(sizeof (Node));
-	loopnode = (Node *)malloc(sizeof (Node));
 
 	if(op == ELSEIF){
 
@@ -318,32 +341,32 @@ void prtcode(int token, int val)
 		break;
 	*/
 
-	case LT:
+	case LT: // 미만
 		fprintf(fp, "-\n");
 		fprintf(fp, "COPY\n");
 		fprintf(fp, "GOPLUS OUT\n");
 		fprintf(fp, "GOFALSE OUT\n");
 		break;
-	case GT:
+	case GT: // 초과
 		fprintf(fp, "-\n");
 		fprintf(fp, "COPY\n");
 		fprintf(fp, "GOMINUS OUT\n");
 		fprintf(fp, "GOFALSE OUT\n");
 		break;
-	case NE:
+	case NE: // 다르다
 		fprintf(fp, "-\n");
 		fprintf(fp, "GOFALSE OUT\n");
 		break;
-	case EQ:
+	case EQ: // 같다
 		fprintf(fp, "-\n");
 		fprintf(fp, "GOTRUE OUT\n");
 		break;
-	case LE:
+	case LE: // 이하
 		fprintf(fp, "-\n");
 		fprintf(fp, "GOPLUS OUT\n");
 		break;
 
-	case GE:	
+	case GE: // 이상
 		fprintf(fp, "-\n");
 		fprintf(fp, "GOMINUS OUT\n");
 		break;
