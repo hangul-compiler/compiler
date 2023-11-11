@@ -327,19 +327,11 @@ void prtcode(int token, int val)
 	case LOOP:
 		fprintf(fp, "LABEL LOOP\n");
 		break;
-	/*
-	case LOOP2:
-		
-		fprintf(fp, "LVALUE NUM\n");
-        	fprintf(fp, "PUSH 1\n");
-        	fprintf(fp, ":=\n");
-		fprintf(fp, "LABEL FORCONDITION\n");
-		fprintf(fp, "RVALUE NUM\n");
-		fprintf(fp, "PUSH %d\n", counter);
-        	fprintf(fp, "-\n");
-		fprintf(fp, "GOPLUS FOREND\n");
+	case WHILE:
+		// 조건 검사하기 -> 조건에 맞으면 다시 "GOTO LOOP"
+		fprintf(fp, "GOTO LOOP\n");
+		fprintf(fp, "LABEL OUT\n");
 		break;
-	*/
 
 	case LT: // 미만
 		fprintf(fp, "-\n");
