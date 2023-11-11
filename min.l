@@ -46,6 +46,7 @@ number 	[0-9]+\.[0-9]+
 아니면만약|ELSEIF	{return(ELSEIF);}
 
 조건동안반복|LOOP		{return(LOOP);}
+반복문|WHILE		{return(WHILE);}
 
 "{"|LBRACE		{return(LBRACE);}
 "}"|RBRACE		{return(RBRACE);}
