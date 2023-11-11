@@ -103,8 +103,8 @@ factor	:	ID		{ /* ID node is created in lex */ }
 %%
 int main(int argc, char *argv[]) 
 {
-	printf("\nsample CBU compiler v2.0\n");
-	printf("(C) Copyright by seongmin, 2022.\n");
+	printf("\nSample Korean-lang Compiler\n");
+	printf("(C) Copyright by SeongMin, MinHyeong, SuJin 2023.\n");
 	
 	if (argc == 2)
 		yyin = fopen(argv[1], "r");
