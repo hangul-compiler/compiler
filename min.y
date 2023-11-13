@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 	if (argc == 2)
 		yyin = fopen(argv[1], "r");
 	else {
-		printf("Usage: cbu2 inputfile\noutput file is 'a.asm'\n");
+		printf("Usage: compile inputfile\noutput file is 'a.s'\n");
 		return(0);
 		}
 		
@@ -233,12 +233,7 @@ Node * MakeELSEIFTree(int op, Node* operand1, Node* operand2)
 
     return newnode;
 }
- 	
-
-
-
-
-
+ 
 Node * MakeNode(int token, int operand)
 {
 Node * newnode;
@@ -270,9 +265,6 @@ Node * node;
 		}
 	
 }
-
-
-
 
 void codegen(Node * root)
 {
@@ -373,20 +365,6 @@ void prtcode(int token, int val)
 	};
 }
 
-
-/*
-int gentemp()
-{
-char buffer[MAXTSYMLEN];
-char tempsym[MAXSYMLEN]="TTCBU";
-
-	tsymbolcnt++;
-	if (tsymbolcnt > MAXTSYMBOL) printf("temp symbol overflow\n");
-	itoa(tsymbolcnt, buffer, 10);
-	strcat(tempsym, buffer);
-	return( insertsym(tempsym) ); // Warning: duplicated symbol is not checked for lazy implementation
-}
-*/
 void dwgen()
 {
 int i;
