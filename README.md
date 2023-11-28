@@ -61,6 +61,7 @@ gcc 하고 나면 warning 메시지가 뜨는데 무시하시면 됩니다.
 컴파일을 하면 a.s 파일이 생성됩니다.
 
 ### 참고자료
-아래 강의를 참고하였습니다.
+1) Stacksim이라는 자체적은 tool을 참고했습니다.
+2) 아래 강의를 참고하였습니다.
 
 컴파일러 구성론 [http://www.kocw.net/home/cview.do?cid=b0728df5b04aee67]
