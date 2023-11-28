@@ -45,7 +45,7 @@ b 는 3 이다
 ## 실행 방법
 flex와 bison을 사용하였습니다.
 
-(flex, bison 참고)[https://heaeat.github.io/flex-bison/]
+flex, bison 참고 [https://heaeat.github.io/flex-bison/]
 
 ### 컴파일 실행 exe 파일 만들기
 ```
@@ -63,4 +63,4 @@ gcc 하고 나면 warning 메시지가 뜨는데 무시하시면 됩니다.
 ### 참고자료
 아래 강의를 참고하였습니다.
 
-(컴파일러 구성론)[http://www.kocw.net/home/cview.do?cid=b0728df5b04aee67]
+컴파일러 구성론 [http://www.kocw.net/home/cview.do?cid=b0728df5b04aee67]
