@@ -53,7 +53,7 @@ flex, bison 참고 [https://heaeat.github.io/flex-bison/]
 >>> flex min.l // 
 >>> gcc lex.yy.c min.tab.c -o [지정할 이름].exe
 ```
-gcc 하고 나면 warning 메시지가 뜨는데 무시하셔도 됩니다.
+gcc 하고 나면 warning 메시지가 뜨는데 그대로 진행하셔도 됩니다.
 ### 컴파일 하기
 ```
 >>> [지정한 이름].exe 예제코드.min
